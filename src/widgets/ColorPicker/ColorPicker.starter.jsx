@@ -23,31 +23,42 @@ function ColorPicker() {
 
   // TODO: Initialize state for selected color
   // Hint: Start with the first color in the colors array (colors[0])
-
+  const [selectedColor, setSelectedColor] = useState(colors[0]);
 
   // Event handler for color selection
   const handleColorSelect = (color) => {
     // TODO: Update the selected color state with the clicked color
-
+    setSelectedColor(color);
+    console.log('Selected color:', color);
   };
 
   return (
     <div className="flex flex-col items-center justify-center space-y-6">
-      {/* Display Selected Color */}
+      
       <div className="text-center space-y-2">
         <h3 className="text-xl font-semibold text-gray-700">Selected Color</h3>
-        {/* TODO: Display the selected color name and value */}
+          
+        
         <div className="text-2xl font-bold text-gray-500">
-          Color Name
+          Color Name:
         </div>
-        <div className="text-sm text-gray-500">#HEXCODE</div>
+        {/* Display Selected Color */
+          selectedColor.name
+          }
+        
+        <div className="text-sm text-gray-500">#HEXCODE:</div>
+        {/* TODO: Display the selected color name and value */
+          selectedColor.value
+        }
       </div>
 
-      {/* Color Preview Box */}
+      {/* Color Preview Box */
+
+      }
       {/* TODO: Set backgroundColor style to selectedColor.value */}
       <div
         className="w-48 h-48 rounded-lg shadow-lg transition-all duration-300"
-        style={{ backgroundColor: '#CCCCCC' }}
+        style={{ backgroundColor: selectedColor.value }}
       />
 
       {/* Color Options */}
