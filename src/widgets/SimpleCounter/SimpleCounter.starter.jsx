@@ -15,31 +15,33 @@ function SimpleCounter() {
   // Create a state variable called 'count' with initial value of 0
   // Hint: const [count, setCount] = useState(0);
 
-
+  const [count, setCount] = useState(0);
   // Event handler for increment
   const handleIncrement = () => {
     // TODO: Increment the count by 1
     // Hint: Use setCount to update the count
-
+    setCount(count + 1);
+    console.log(count + 1);
   };
 
   // Event handler for decrement
   const handleDecrement = () => {
     // TODO: Decrement the count by 1
-
+    setCount(count - 1);
+    console.log(count - 1);
   };
 
   // Event handler for reset
   const handleReset = () => {
     // TODO: Reset count to 0
-
+    setCount(0);
+    console.log(0);
   };
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4">
       <div className="text-6xl font-bold text-primary-600">
-        {/* TODO: Display the count value here */}
-        0
+        {count}
       </div>
 
       <div className="flex gap-2">
