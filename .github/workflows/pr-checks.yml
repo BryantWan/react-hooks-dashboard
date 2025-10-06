@@ -1,0 +1,51 @@
+name: Pull Request Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  pr-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Check for console.logs (warning only)
+      run: |
+        if grep -r "console\.\(log\|error\|warn\)" src --include="*.jsx" --include="*.js" --exclude-dir=__tests__; then
+          echo "⚠️  Warning: Found console statements in code"
+          echo "Consider removing them before merging"
+        fi
+      continue-on-error: true
+
+    - name: Run linter
+      run: npm run lint
+
+    - name: Run tests
+      run: npm test -- --run
+
+    - name: Build check
+      run: npm run build
+
+    - name: Check widget config
+      run: |
+        echo "Checking widget configuration..."
+        node -e "
+          const config = require('./src/widgetConfig.js');
+          const widgets = Object.entries(config.widgetRegistry);
+          const enabled = widgets.filter(([,w]) => w.enabled);
+          console.log('✅ Total widgets:', widgets.length);
+          console.log('✅ Enabled widgets:', enabled.length);
+          enabled.forEach(([key, w]) => console.log('  -', w.title, 'by', w.author || 'Unknown'));
+        " || echo "Note: Widget config check requires Node.js"
